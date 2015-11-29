@@ -10,7 +10,6 @@ import UIKit
 import SceneKit
 
 struct CollisionCategory {
-    
     static let None: Int = 0b00000000
     static let All: Int = 0b11111111
     static let Map: Int = 0b00000001
@@ -20,7 +19,7 @@ struct CollisionCategory {
 }
 
 class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRendererDelegate {
-
+    
     //MARK: config
     let autofireTapTimeThreshold = 0.2
     let maxRoundsPerSecond = 30
@@ -55,7 +54,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         let scene = SCNScene()
         scene.physicsWorld.gravity = SCNVector3(x: 0, y: -9, z: 0)
         scene.physicsWorld.timeStep = 1.0/360
-
+        
         //add entities
         for entity in map.entities {
             switch entity.type {
@@ -71,12 +70,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
                 heroNode.physicsBody?.velocityFactor = SCNVector3(x: 1, y: 0, z: 1)
                 heroNode.physicsBody?.categoryBitMask = CollisionCategory.Hero
                 heroNode.physicsBody?.collisionBitMask = CollisionCategory.All ^ CollisionCategory.Bullet
-                if #available(iOS 9.0, *) {
-                    heroNode.physicsBody?.contactTestBitMask = ~0
-                }
+                heroNode.physicsBody?.contactTestBitMask = ~0
                 heroNode.position = SCNVector3(x: entity.x, y: 0.5, z: entity.y)
                 scene.rootNode.addChildNode(heroNode)
-
+                
             case .Monster:
                 
                 let monsterNode = SCNNode()
@@ -85,9 +82,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
                 monsterNode.physicsBody = SCNPhysicsBody(type: .Dynamic, shape: SCNPhysicsShape(geometry: monsterNode.geometry!, options: nil))
                 monsterNode.physicsBody?.categoryBitMask = CollisionCategory.Monster
                 monsterNode.physicsBody?.collisionBitMask = CollisionCategory.All
-                if #available(iOS 9.0, *) {
-                    monsterNode.physicsBody?.contactTestBitMask = ~0
-                }
+                monsterNode.physicsBody?.contactTestBitMask = ~0
                 scene.rootNode.addChildNode(monsterNode)
             }
         }
@@ -149,21 +144,19 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         floorNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(-M_PI_2))
         floorNode.position = SCNVector3(x: Float(map.width)/2, y: 0, z: Float(map.height)/2)
         mapNode.addChildNode(floorNode)
-
+        
         //add ceiling
         let ceilingNode = SCNNode()
         ceilingNode.geometry = SCNPlane(width: CGFloat(map.width), height: CGFloat(map.height))
         ceilingNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(M_PI_2))
         ceilingNode.position = SCNVector3(x: Float(map.width)/2, y: 1, z: Float(map.height)/2)
         mapNode.addChildNode(ceilingNode)
-
+        
         //set up map physics
         mapNode.physicsBody = SCNPhysicsBody(type: .Static, shape: SCNPhysicsShape(node: mapNode, options: [SCNPhysicsShapeKeepAsCompoundKey: true]))
         mapNode.physicsBody?.categoryBitMask = CollisionCategory.Map
         mapNode.physicsBody?.collisionBitMask = CollisionCategory.All
-        if #available(iOS 9.0, *) {
-            mapNode.physicsBody?.contactTestBitMask = ~0
-        }
+        mapNode.physicsBody?.contactTestBitMask = ~0
         scene.rootNode.addChildNode(mapNode)
         
         //set the scene to the view
@@ -185,7 +178,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         walkGesture = UIPanGestureRecognizer(target: self, action: "walkGestureRecognized:")
         walkGesture.delegate = self
         view.addGestureRecognizer(walkGesture)
-
+        
         //fire gesture
         fireGesture = FireGestureRecognizer(target: self, action: "fireGestureRecognized:")
         fireGesture.delegate = self
@@ -240,14 +233,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     }
     
     func walkGestureRecognized(gesture: UIPanGestureRecognizer) {
-
+        
         if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
             gesture.setTranslation(CGPointZero, inView: self.view)
         }
     }
     
     func fireGestureRecognized(gesture: FireGestureRecognizer) {
-
+        
         //update timestamp
         let now = CFAbsoluteTimeGetCurrent()
         if now - lastTappedFire < autofireTapTimeThreshold {
@@ -257,12 +250,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         }
         lastTappedFire = now
     }
-
+    
     func renderer(aRenderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
         
         //get walk gesture translation
         let translation = walkGesture.translationInView(self.view)
-
+        
         //create impulse vector for hero
         let angle = heroNode.presentationNode.rotation.w * heroNode.presentationNode.rotation.y
         var impulse = SCNVector3(x: max(-1, min(1, Float(translation.x) / 50)), y: 0, z: max(-1, min(1, Float(-translation.y) / 50)))
