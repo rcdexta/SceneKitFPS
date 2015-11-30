@@ -27,7 +27,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     let bulletImpulse = 15
     let maxBullets = 100
     
-    @IBOutlet var sceneView: SCNView!
+    @IBOutlet var sceneView: GameView!
     @IBOutlet var overlayView: UIView!
     
     var lookGesture: UIPanGestureRecognizer!
@@ -59,7 +59,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         for entity in map.entities {
             switch entity.type {
             case .Hero:
-                
                 heroNode = SCNNode()
                 heroNode.physicsBody = SCNPhysicsBody(type: .Dynamic, shape: SCNPhysicsShape(geometry: SCNCylinder(radius: 0.2, height: 1), options: nil))
                 heroNode.physicsBody?.angularDamping = 0.9999999
@@ -174,16 +173,26 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         lookGesture.delegate = self
         view.addGestureRecognizer(lookGesture)
         
-        //walk gesture
-        walkGesture = UIPanGestureRecognizer(target: self, action: "walkGestureRecognized:")
-        walkGesture.delegate = self
-        view.addGestureRecognizer(walkGesture)
+//        walk gesture
+//        walkGesture = UIPanGestureRecognizer(target: self, action: "walkGestureRecognized:")
+//        walkGesture.delegate = self
+//        view.addGestureRecognizer(walkGesture)
         
         //fire gesture
-        fireGesture = FireGestureRecognizer(target: self, action: "fireGestureRecognized:")
-        fireGesture.delegate = self
-        view.addGestureRecognizer(fireGesture)
+        
+//        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("handleTap:"))
+        
+//        fireGesture = FireGestureRecognizer(target: self, action: "walkGestureRecognized:")
+//        fireGesture.delegate = self
+//        view.addGestureRecognizer(tapGesture)
     }
+    
+//    func handleTap(gesture: UITapGestureRecognizer)
+//    {
+//        if gesture.state == UIGestureRecognizerState.Ended || gesture.state == UIGestureRecognizerState.Cancelled {
+//            gesture.setTranslation(CGPointZero, inView: self.view)
+//        }
+//    }
     
     override func viewDidAppear(animated: Bool) {
         
@@ -201,11 +210,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         
-        if gestureRecognizer == lookGesture {
-            return touch.locationInView(view).x > view.frame.size.width / 2
-        } else if gestureRecognizer == walkGesture {
-            return touch.locationInView(view).x < view.frame.size.width / 2
-        }
+//        if gestureRecognizer == lookGesture {
+//            return touch.locationInView(view).x > view.frame.size.width / 2
+//        } else if gestureRecognizer == walkGesture {
+//            return touch.locationInView(view).x < view.frame.size.width / 2
+//        }
         return true
     }
     
@@ -227,6 +236,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         //tilt camera
         elevation = max(Float(-M_PI_4), min(Float(M_PI_4), elevation + vAngle))
         camNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: elevation)
+        
+        sceneView.touchCount = 0
         
         //reset translation
         gesture.setTranslation(CGPointZero, inView: self.view)
@@ -253,8 +264,22 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     
     func renderer(aRenderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
         
+        struct My {
+            var x : Int
+            var y: Int
+        }
+        
+        var translation = My(x: 0, y: 0)
+        
         //get walk gesture translation
-        let translation = walkGesture.translationInView(self.view)
+        if (sceneView.touchCount > 0) {
+            translation.y -= 20
+        }
+
+
+//        let translation = walkGesture.translationInView(self.view)
+        print(sceneView.touchCount)
+        print(translation)
         
         //create impulse vector for hero
         let angle = heroNode.presentationNode.rotation.w * heroNode.presentationNode.rotation.y

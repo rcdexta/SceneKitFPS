@@ -17,6 +17,7 @@
 		01D1D1A71A29EEDF0067D6D3 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D1D1A51A29EEDF0067D6D3 /* Tile.swift */; };
 		01D1D1AC1A29EF320067D6D3 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D1D1AB1A29EF320067D6D3 /* Map.swift */; };
 		01D1D1AE1A29F7B00067D6D3 /* FireGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D1D1AD1A29F7B00067D6D3 /* FireGestureRecognizer.swift */; };
+		5184C3261C0BB2DB001943D1 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5184C3251C0BB2DB001943D1 /* GameView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		01D1D1A51A29EEDF0067D6D3 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		01D1D1AB1A29EF320067D6D3 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		01D1D1AD1A29F7B00067D6D3 /* FireGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireGestureRecognizer.swift; sourceTree = "<group>"; };
+		5184C3251C0BB2DB001943D1 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			children = (
 				01558A351A0291A700083EB1 /* AppDelegate.swift */,
 				01558A371A0291A700083EB1 /* ViewController.swift */,
+				5184C3251C0BB2DB001943D1 /* GameView.swift */,
 				01D1D1AD1A29F7B00067D6D3 /* FireGestureRecognizer.swift */,
 				01558A391A0291A700083EB1 /* Main.storyboard */,
 			);
@@ -191,6 +194,7 @@
 				01D1D1AE1A29F7B00067D6D3 /* FireGestureRecognizer.swift in Sources */,
 				01D1D1A71A29EEDF0067D6D3 /* Tile.swift in Sources */,
 				01558A361A0291A700083EB1 /* AppDelegate.swift in Sources */,
+				5184C3261C0BB2DB001943D1 /* GameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
