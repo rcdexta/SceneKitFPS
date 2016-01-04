@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  FPSControls
-//
-//  Created by Nick Lockwood on 30/10/2014.
-//  Copyright (c) 2014 Nick Lockwood. All rights reserved.
-//
-
 import UIKit
 import SceneKit
 
@@ -43,6 +35,29 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     var lastTappedFire: NSTimeInterval = 0
     var lastFired: NSTimeInterval = 0
     var bullets = [SCNNode]()
+    
+    func applyWallTexture(plane:SCNGeometry){
+        plane.firstMaterial?.diffuse.contents = UIImage(named: "brick")
+        plane.firstMaterial?.diffuse.wrapS = SCNWrapMode.Repeat
+        plane.firstMaterial?.diffuse.wrapT = SCNWrapMode.Repeat
+        plane.firstMaterial?.diffuse.mipFilter = SCNFilterMode.Linear
+    }
+    
+    func createFloor() -> SCNNode {
+        let floorNode = SCNNode()
+
+        floorNode.geometry = SCNPlane(width: CGFloat(map.width), height: CGFloat(map.height))
+        floorNode.geometry?.firstMaterial?.diffuse.contents = "grass"
+        floorNode.geometry?.firstMaterial?.locksAmbientWithDiffuse = true
+        floorNode.geometry?.firstMaterial?.diffuse.wrapS = SCNWrapMode.Repeat
+        floorNode.geometry?.firstMaterial?.diffuse.wrapT = SCNWrapMode.Repeat
+        floorNode.geometry?.firstMaterial?.diffuse.contentsTransform = SCNMatrix4MakeScale(20, 20, 1)
+        
+        floorNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(-M_PI_2))
+        floorNode.position = SCNVector3(x: Float(map.width)/2, y: 0, z: Float(map.height)/2)
+
+        return floorNode
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +124,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
                 if tile.visibility.contains(.Top) {
                     let wallNode = SCNNode()
                     wallNode.geometry = SCNPlane(width: 1, height: 1)
+                    applyWallTexture(wallNode.geometry!)
                     wallNode.rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(M_PI))
                     wallNode.position = SCNVector3(x: Float(tile.x) + 0.5, y: 0.5, z: Float(tile.y))
                     mapNode.addChildNode(wallNode)
@@ -116,6 +132,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
                 if tile.visibility.contains(.Right) {
                     let wallNode = SCNNode()
                     wallNode.geometry = SCNPlane(width: 1, height: 1)
+                    applyWallTexture(wallNode.geometry!)
                     wallNode.rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(M_PI_2))
                     wallNode.position = SCNVector3(x: Float(tile.x) + 1, y: 0.5, z: Float(tile.y) + 0.5)
                     mapNode.addChildNode(wallNode)
@@ -123,6 +140,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
                 if tile.visibility.contains(.Bottom) {
                     let wallNode = SCNNode()
                     wallNode.geometry = SCNPlane(width: 1, height: 1)
+                    applyWallTexture(wallNode.geometry!)
                     wallNode.rotation = SCNVector4(x: 0, y: 1, z: 0, w: 0)
                     wallNode.position = SCNVector3(x: Float(tile.x) + 0.5, y: 0.5, z: Float(tile.y) + 1)
                     mapNode.addChildNode(wallNode)
@@ -130,6 +148,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
                 if tile.visibility.contains(.Left) {
                     let wallNode = SCNNode()
                     wallNode.geometry = SCNPlane(width: 1, height: 1)
+                    applyWallTexture(wallNode.geometry!)
                     wallNode.rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(-M_PI_2))
                     wallNode.position = SCNVector3(x: Float(tile.x), y: 0.5, z: Float(tile.y) + 0.5)
                     mapNode.addChildNode(wallNode)
@@ -138,18 +157,19 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         }
         
         //add floor
-        let floorNode = SCNNode()
-        floorNode.geometry = SCNPlane(width: CGFloat(map.width), height: CGFloat(map.height))
-        floorNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(-M_PI_2))
-        floorNode.position = SCNVector3(x: Float(map.width)/2, y: 0, z: Float(map.height)/2)
-        mapNode.addChildNode(floorNode)
+        mapNode.addChildNode(createFloor())
         
         //add ceiling
-        let ceilingNode = SCNNode()
-        ceilingNode.geometry = SCNPlane(width: CGFloat(map.width), height: CGFloat(map.height))
-        ceilingNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(M_PI_2))
-        ceilingNode.position = SCNVector3(x: Float(map.width)/2, y: 1, z: Float(map.height)/2)
-        mapNode.addChildNode(ceilingNode)
+//        let ceilingNode = SCNNode()
+//        ceilingNode.geometry = SCNPlane(width: CGFloat(map.width), height: CGFloat(map.height))
+//        ceilingNode.geometry!.firstMaterial?.diffuse.contents = "night"
+//        ceilingNode.geometry!.firstMaterial?.diffuse.contentsTransform = SCNMatrix4MakeScale(10, 10, 1)
+//        ceilingNode.geometry!.firstMaterial?.diffuse.wrapS = SCNWrapMode.Repeat
+//        ceilingNode.geometry!.firstMaterial?.diffuse.wrapT = SCNWrapMode.Repeat
+//        ceilingNode.geometry!.firstMaterial?.diffuse.mipFilter = SCNFilterMode.Linear
+//        ceilingNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(M_PI_2))
+//        ceilingNode.position = SCNVector3(x: Float(map.width)/2, y: 1, z: Float(map.height)/2)
+//        mapNode.addChildNode(ceilingNode)
         
         //set up map physics
         mapNode.physicsBody = SCNPhysicsBody(type: .Static, shape: SCNPhysicsShape(node: mapNode, options: [SCNPhysicsShapeKeepAsCompoundKey: true]))
@@ -278,8 +298,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
 
 
 //        let translation = walkGesture.translationInView(self.view)
-        print(sceneView.touchCount)
-        print(translation)
+//        print(sceneView.touchCount)
+//        print(translation)
         
         //create impulse vector for hero
         let angle = heroNode.presentationNode.rotation.w * heroNode.presentationNode.rotation.y

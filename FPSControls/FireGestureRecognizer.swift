@@ -1,10 +1,4 @@
-//
-//  FireGestureRecognizer.swift
-//  FPSControls
-//
-//  Created by Nick Lockwood on 09/11/2014.
-//  Copyright (c) 2014 Nick Lockwood. All rights reserved.
-//
+
 
 import UIKit
 import UIKit.UIGestureRecognizerSubclass

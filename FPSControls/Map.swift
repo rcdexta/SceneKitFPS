@@ -1,10 +1,3 @@
-//
-//  Map.swift
-//  FPSControls
-//
-//  Created by Nick Lockwood on 06/11/2014.
-//  Copyright (c) 2014 Nick Lockwood. All rights reserved.
-//
 
 import UIKit
 
