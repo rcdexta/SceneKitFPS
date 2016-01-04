@@ -36,6 +36,18 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     var lastFired: NSTimeInterval = 0
     var bullets = [SCNNode]()
     
+    func collada2SCNNode(filepath:String) -> SCNNode {
+        let node = SCNNode()
+        let scene = SCNScene(named: filepath)
+        let nodeArray = scene!.rootNode.childNodes
+        
+        for childNode in nodeArray {
+            node.addChildNode(childNode as SCNNode)
+        }
+        
+        return node
+    }
+    
     func applyWallTexture(plane:SCNGeometry){
         plane.firstMaterial?.diffuse.contents = UIImage(named: "brick")
         plane.firstMaterial?.diffuse.wrapS = SCNWrapMode.Repeat
@@ -89,15 +101,23 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
                 scene.rootNode.addChildNode(heroNode)
                 
             case .Monster:
+                let monsterScene = SCNScene(named: "crystal")
+                let monsterNode = monsterScene!.rootNode.childNodeWithName("crystal", recursively: false)
+                monsterNode!.position = SCNVector3(x: entity.x, y: 0, z: entity.y)
+                monsterNode!.scale = SCNVector3(x: 0.3, y: 0.3, z: 0.3)
+                monsterNode!.physicsBody = SCNPhysicsBody(type: .Static, shape: SCNPhysicsShape(geometry: monsterNode!.geometry!, options: nil))
+                monsterNode!.physicsBody?.categoryBitMask = CollisionCategory.Monster
+                monsterNode!.physicsBody?.collisionBitMask = CollisionCategory.All
+                monsterNode!.physicsBody?.contactTestBitMask = ~0
                 
-                let monsterNode = SCNNode()
-                monsterNode.position = SCNVector3(x: entity.x, y: 0.3, z: entity.y)
-                monsterNode.geometry = SCNCylinder(radius: 0.15, height: 0.6)
-                monsterNode.physicsBody = SCNPhysicsBody(type: .Dynamic, shape: SCNPhysicsShape(geometry: monsterNode.geometry!, options: nil))
-                monsterNode.physicsBody?.categoryBitMask = CollisionCategory.Monster
-                monsterNode.physicsBody?.collisionBitMask = CollisionCategory.All
-                monsterNode.physicsBody?.contactTestBitMask = ~0
-                scene.rootNode.addChildNode(monsterNode)
+                let action = SCNAction.rotateByAngle(CGFloat(5), aroundAxis: SCNVector3Make(0,-1,0), duration:5.0)
+                let sequence = SCNAction.sequence([action])
+                
+                let repeatedSequence = SCNAction.repeatActionForever(sequence)
+                monsterNode!.runAction(repeatedSequence)
+
+                
+                scene.rootNode.addChildNode(monsterNode!)
             }
         }
         

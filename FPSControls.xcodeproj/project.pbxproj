@@ -20,8 +20,9 @@
 		5184C3261C0BB2DB001943D1 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5184C3251C0BB2DB001943D1 /* GameView.swift */; };
 		518C73F21C3A7B5700354987 /* brick.png in Resources */ = {isa = PBXBuildFile; fileRef = 518C73F11C3A7B5700354987 /* brick.png */; };
 		518C73FE1C3A928C00354987 /* grass.png in Resources */ = {isa = PBXBuildFile; fileRef = 518C73FD1C3A928C00354987 /* grass.png */; };
-		518C74061C3A99FE00354987 /* dibujo_jarron.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 518C74051C3A99FE00354987 /* dibujo_jarron.jpg */; };
 		518C74091C3ADE9500354987 /* night.png in Resources */ = {isa = PBXBuildFile; fileRef = 518C74081C3ADE9500354987 /* night.png */; };
+		518C74141C3AEF6100354987 /* bambo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 518C74121C3AEF6100354987 /* bambo.jpg */; };
+		518C74151C3AEF6100354987 /* crystal.dae in Resources */ = {isa = PBXBuildFile; fileRef = 518C74131C3AEF6100354987 /* crystal.dae */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,9 +41,9 @@
 		5184C3251C0BB2DB001943D1 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		518C73F11C3A7B5700354987 /* brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brick.png; sourceTree = "<group>"; };
 		518C73FD1C3A928C00354987 /* grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass.png; sourceTree = "<group>"; };
-		518C74051C3A99FE00354987 /* dibujo_jarron.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dibujo_jarron.jpg; sourceTree = "<group>"; };
-		518C74071C3A9A2600354987 /* jar.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = jar.scn; sourceTree = "<group>"; };
 		518C74081C3ADE9500354987 /* night.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = night.png; sourceTree = "<group>"; };
+		518C74121C3AEF6100354987 /* bambo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bambo.jpg; sourceTree = "<group>"; };
+		518C74131C3AEF6100354987 /* crystal.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = crystal.dae; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,9 +119,9 @@
 		01D1D1AA1A29EF0E0067D6D3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				518C74121C3AEF6100354987 /* bambo.jpg */,
+				518C74131C3AEF6100354987 /* crystal.dae */,
 				518C74081C3ADE9500354987 /* night.png */,
-				518C74051C3A99FE00354987 /* dibujo_jarron.jpg */,
-				518C74071C3A9A2600354987 /* jar.scn */,
 				518C73FD1C3A928C00354987 /* grass.png */,
 				518C73F11C3A7B5700354987 /* brick.png */,
 				01558A3C1A0291A700083EB1 /* Images.xcassets */,
@@ -189,14 +190,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				518C74141C3AEF6100354987 /* bambo.jpg in Resources */,
 				518C73FE1C3A928C00354987 /* grass.png in Resources */,
 				01D1D1A31A29EDD10067D6D3 /* Map.png in Resources */,
-				518C74061C3A99FE00354987 /* dibujo_jarron.jpg in Resources */,
 				01558A3B1A0291A700083EB1 /* Main.storyboard in Resources */,
 				518C73F21C3A7B5700354987 /* brick.png in Resources */,
 				01558A401A0291A700083EB1 /* LaunchScreen.xib in Resources */,
 				518C74091C3ADE9500354987 /* night.png in Resources */,
 				01558A3D1A0291A700083EB1 /* Images.xcassets in Resources */,
+				518C74151C3AEF6100354987 /* crystal.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
