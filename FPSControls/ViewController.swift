@@ -1,4 +1,5 @@
 import UIKit
+import AVFoundation
 import SceneKit
 
 struct CollisionCategory {
@@ -10,7 +11,7 @@ struct CollisionCategory {
     static let Bullet: Int = 0b00001000
 }
 
-class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRendererDelegate {
+class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
     
     //MARK: config
     let autofireTapTimeThreshold = 0.2
@@ -35,6 +36,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     var lastTappedFire: NSTimeInterval = 0
     var lastFired: NSTimeInterval = 0
     var bullets = [SCNNode]()
+    
+    let coinSoundAction = SCNAction.playAudioSource(SCNAudioSource(named: "coin.wav")!, waitForCompletion: false)
     
     func collada2SCNNode(filepath:String) -> SCNNode {
         let node = SCNNode()
@@ -71,16 +74,28 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         return floorNode
     }
     
+    func playBGM(){
+        var audioPlayer = AVAudioPlayer()
+        let soundURL = NSBundle.mainBundle().URLForResource("bgm", withExtension: "mp3")
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOfURL: soundURL!)
+        } catch {
+            print("No sound found by URL:\(soundURL)")
+        }
+        audioPlayer.play()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //generate map
-        map = Map(image: UIImage(named:"Map")!)
+        map = Map(image: UIImage(named:"map1")!)
         
         //create a new scene
         let scene = SCNScene()
         scene.physicsWorld.gravity = SCNVector3(x: 0, y: -9, z: 0)
         scene.physicsWorld.timeStep = 1.0/360
+        scene.physicsWorld.contactDelegate = self
         
         //add entities
         for entity in map.entities {
@@ -115,7 +130,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
                 
                 let repeatedSequence = SCNAction.repeatActionForever(sequence)
                 monsterNode!.runAction(repeatedSequence)
-
+                
                 
                 scene.rootNode.addChildNode(monsterNode!)
             }
@@ -213,6 +228,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         lookGesture.delegate = self
         view.addGestureRecognizer(lookGesture)
         
+//        playBGM()
+        
 //        walk gesture
 //        walkGesture = UIPanGestureRecognizer(target: self, action: "walkGestureRecognized:")
 //        walkGesture.delegate = self
@@ -300,6 +317,34 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
             tapCount = 1
         }
         lastTappedFire = now
+    }
+    
+    func physicsWorld(world: SCNPhysicsWorld, didUpdateContact contact: SCNPhysicsContact) {
+//        print("collision")
+//        print(contact.nodeA)
+//        print(contact.nodeB)
+        
+        if (contact.nodeA.name == "crystal"){
+//            let exp = SCNParticleSystem()
+//            exp.loops = false
+//            exp.birthRate = 5000
+//            exp.emissionDuration = 0.01
+//            exp.spreadingAngle = 50
+//            exp.particleDiesOnCollision = true
+//            exp.particleLifeSpan = 0.5
+//            exp.particleLifeSpanVariation = 0.3
+//            exp.particleVelocity = 300
+//            exp.particleVelocityVariation = 3
+//            exp.particleSize = 0.10
+//            exp.stretchFactor = 0.15
+//            exp.particleColor = UIColor.orangeColor()
+//            let systemNode = SCNNode()
+//            systemNode.addParticleSystem(exp)
+//            systemNode.position = contact.nodeA.position
+//            self.sceneView.scene!.rootNode.addChildNode(systemNode)
+            contact.nodeB.runAction(coinSoundAction)
+            contact.nodeA.removeFromParentNode()
+        }
     }
     
     func renderer(aRenderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
