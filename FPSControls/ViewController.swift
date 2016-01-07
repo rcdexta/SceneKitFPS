@@ -11,7 +11,7 @@ struct CollisionCategory {
     static let Bullet: Int = 0b00001000
 }
 
-class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
+class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRendererDelegate, SCNPhysicsContactDelegate, AVAudioPlayerDelegate {
     
     //MARK: config
     let autofireTapTimeThreshold = 0.2
@@ -36,6 +36,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     var lastTappedFire: NSTimeInterval = 0
     var lastFired: NSTimeInterval = 0
     var bullets = [SCNNode]()
+    
+    var bgmPlayer : AVAudioPlayer! = nil
     
     let coinSoundAction = SCNAction.playAudioSource(SCNAudioSource(named: "coin.wav")!, waitForCompletion: false)
     
@@ -75,21 +77,24 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     }
     
     func playBGM(){
-        var audioPlayer = AVAudioPlayer()
-        let soundURL = NSBundle.mainBundle().URLForResource("bgm", withExtension: "mp3")
+        let path = NSBundle.mainBundle().pathForResource("bgm", ofType:"mp3")
+        let fileURL = NSURL(fileURLWithPath: path!)
         do {
-            audioPlayer = try AVAudioPlayer(contentsOfURL: soundURL!)
-        } catch {
-            print("No sound found by URL:\(soundURL)")
+            bgmPlayer = try AVAudioPlayer(contentsOfURL: fileURL)
+        } catch let error1 as NSError {
+            print(error1)
         }
-        audioPlayer.play()
+        bgmPlayer.numberOfLoops = 0
+        bgmPlayer.prepareToPlay()
+        bgmPlayer.delegate = self
+        bgmPlayer.play()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //generate map
-        map = Map(image: UIImage(named:"map1")!)
+        map = Map(image: UIImage(named:"map.png")!)
         
         //create a new scene
         let scene = SCNScene()
@@ -114,25 +119,43 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
                 heroNode.physicsBody?.contactTestBitMask = ~0
                 heroNode.position = SCNVector3(x: entity.x, y: 0.5, z: entity.y)
                 scene.rootNode.addChildNode(heroNode)
+            
+            case .Gem:
+                let gemScene = SCNScene(named: "crystal.dae")
+                let gemNode = gemScene!.rootNode.childNodeWithName("crystal", recursively: true)
+                gemNode!.position = SCNVector3(x: entity.x, y: 0.1, z: entity.y)
+                gemNode!.scale = SCNVector3(x: 0.2, y: 0.2, z: 0.2)
+                gemNode!.physicsBody = SCNPhysicsBody(type: .Static, shape: SCNPhysicsShape(geometry: gemNode!.geometry!, options: nil))
+                gemNode!.physicsBody?.categoryBitMask = CollisionCategory.Monster
+                gemNode!.physicsBody?.collisionBitMask = CollisionCategory.All
+                gemNode!.physicsBody?.contactTestBitMask = ~0
                 
-            case .Monster:
-                let monsterScene = SCNScene(named: "crystal")
-                let monsterNode = monsterScene!.rootNode.childNodeWithName("crystal", recursively: false)
-                monsterNode!.position = SCNVector3(x: entity.x, y: 0, z: entity.y)
-                monsterNode!.scale = SCNVector3(x: 0.3, y: 0.3, z: 0.3)
-                monsterNode!.physicsBody = SCNPhysicsBody(type: .Static, shape: SCNPhysicsShape(geometry: monsterNode!.geometry!, options: nil))
-                monsterNode!.physicsBody?.categoryBitMask = CollisionCategory.Monster
-                monsterNode!.physicsBody?.collisionBitMask = CollisionCategory.All
-                monsterNode!.physicsBody?.contactTestBitMask = ~0
-                
-                let action = SCNAction.rotateByAngle(CGFloat(5), aroundAxis: SCNVector3Make(0,-1,0), duration:5.0)
+                let action = SCNAction.rotateByAngle(CGFloat(5), aroundAxis: SCNVector3Make(0,-1,0), duration:10.0)
                 let sequence = SCNAction.sequence([action])
                 
                 let repeatedSequence = SCNAction.repeatActionForever(sequence)
-                monsterNode!.runAction(repeatedSequence)
+                gemNode!.runAction(repeatedSequence)
                 
                 
-                scene.rootNode.addChildNode(monsterNode!)
+                scene.rootNode.addChildNode(gemNode!)
+                
+            case .Monster:
+                let monsterScene = SCNScene(named: "evil-bug-monster.dae")
+                let monsterNode = monsterScene!.rootNode.childNodeWithName("bug_obj_1", recursively: true)!
+                monsterNode.position = SCNVector3(x: entity.x, y: 0.2, z: entity.y)
+                monsterNode.scale = SCNVector3(x: 0.2, y: 0.2, z: 0.2)
+                monsterNode.physicsBody = SCNPhysicsBody(type: .Static, shape: SCNPhysicsShape(geometry: monsterNode.geometry!, options: nil))
+                monsterNode.physicsBody?.categoryBitMask = CollisionCategory.Monster
+                monsterNode.physicsBody?.collisionBitMask = CollisionCategory.All
+                monsterNode.physicsBody?.contactTestBitMask = ~0
+                
+                let action = SCNAction.rotateByAngle(CGFloat(5), aroundAxis: SCNVector3Make(0,-1,0), duration:10.0)
+                let sequence = SCNAction.sequence([action])
+                
+                let repeatedSequence = SCNAction.repeatActionForever(sequence)
+                monsterNode.runAction(repeatedSequence)
+                
+                scene.rootNode.addChildNode(monsterNode)
             }
         }
         
@@ -228,7 +251,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         lookGesture.delegate = self
         view.addGestureRecognizer(lookGesture)
         
-//        playBGM()
+        playBGM()
         
 //        walk gesture
 //        walkGesture = UIPanGestureRecognizer(target: self, action: "walkGestureRecognized:")

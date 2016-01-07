@@ -12,14 +12,15 @@
 		01558A3B1A0291A700083EB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01558A391A0291A700083EB1 /* Main.storyboard */; };
 		01558A3D1A0291A700083EB1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01558A3C1A0291A700083EB1 /* Images.xcassets */; };
 		01558A401A0291A700083EB1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01558A3E1A0291A700083EB1 /* LaunchScreen.xib */; };
-		01D1D1A31A29EDD10067D6D3 /* Map.png in Resources */ = {isa = PBXBuildFile; fileRef = 01D1D1A21A29EDD10067D6D3 /* Map.png */; };
 		01D1D1A61A29EEDF0067D6D3 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D1D1A41A29EEDF0067D6D3 /* Entity.swift */; };
 		01D1D1A71A29EEDF0067D6D3 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D1D1A51A29EEDF0067D6D3 /* Tile.swift */; };
 		01D1D1AC1A29EF320067D6D3 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D1D1AB1A29EF320067D6D3 /* Map.swift */; };
 		01D1D1AE1A29F7B00067D6D3 /* FireGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D1D1AD1A29F7B00067D6D3 /* FireGestureRecognizer.swift */; };
+		51079C161C3E17440084D014 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 51079C151C3E17440084D014 /* map.png */; };
+		51079C191C3E17CC0084D014 /* evil-bug-monster.dae in Resources */ = {isa = PBXBuildFile; fileRef = 51079C171C3E17CC0084D014 /* evil-bug-monster.dae */; };
+		51079C1A1C3E17CC0084D014 /* fire-171229-640.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 51079C181C3E17CC0084D014 /* fire-171229-640.jpg */; };
 		511B4CAD1C3BB09D00695086 /* Coin 2 in Resources */ = {isa = PBXBuildFile; fileRef = 511B4CAB1C3BB09D00695086 /* Coin 2 */; };
 		511B4CAE1C3BB09D00695086 /* Coin 2.dae in Resources */ = {isa = PBXBuildFile; fileRef = 511B4CAC1C3BB09D00695086 /* Coin 2.dae */; };
-		511B4CB01C3BB0C500695086 /* map1.png in Resources */ = {isa = PBXBuildFile; fileRef = 511B4CAF1C3BB0C500695086 /* map1.png */; };
 		511B4CB21C3BB89F00695086 /* bgm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 511B4CB11C3BB89F00695086 /* bgm.mp3 */; };
 		5184C3261C0BB2DB001943D1 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5184C3251C0BB2DB001943D1 /* GameView.swift */; };
 		518C73F21C3A7B5700354987 /* brick.png in Resources */ = {isa = PBXBuildFile; fileRef = 518C73F11C3A7B5700354987 /* brick.png */; };
@@ -38,14 +39,15 @@
 		01558A3A1A0291A700083EB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		01558A3C1A0291A700083EB1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		01558A3F1A0291A700083EB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		01D1D1A21A29EDD10067D6D3 /* Map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Map.png; sourceTree = "<group>"; };
 		01D1D1A41A29EEDF0067D6D3 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		01D1D1A51A29EEDF0067D6D3 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		01D1D1AB1A29EF320067D6D3 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		01D1D1AD1A29F7B00067D6D3 /* FireGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireGestureRecognizer.swift; sourceTree = "<group>"; };
+		51079C151C3E17440084D014 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
+		51079C171C3E17CC0084D014 /* evil-bug-monster.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = "evil-bug-monster.dae"; sourceTree = "<group>"; };
+		51079C181C3E17CC0084D014 /* fire-171229-640.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "fire-171229-640.jpg"; sourceTree = "<group>"; };
 		511B4CAB1C3BB09D00695086 /* Coin 2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Coin 2"; sourceTree = "<group>"; };
 		511B4CAC1C3BB09D00695086 /* Coin 2.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = "Coin 2.dae"; sourceTree = "<group>"; };
-		511B4CAF1C3BB0C500695086 /* map1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map1.png; sourceTree = "<group>"; };
 		511B4CB11C3BB89F00695086 /* bgm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgm.mp3; sourceTree = "<group>"; };
 		5184C3251C0BB2DB001943D1 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		518C73F11C3A7B5700354987 /* brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brick.png; sourceTree = "<group>"; };
@@ -139,9 +141,10 @@
 				518C73F11C3A7B5700354987 /* brick.png */,
 				01558A3C1A0291A700083EB1 /* Images.xcassets */,
 				01558A3E1A0291A700083EB1 /* LaunchScreen.xib */,
+				51079C151C3E17440084D014 /* map.png */,
 				511B4CB11C3BB89F00695086 /* bgm.mp3 */,
-				511B4CAF1C3BB0C500695086 /* map1.png */,
-				01D1D1A21A29EDD10067D6D3 /* Map.png */,
+				51079C171C3E17CC0084D014 /* evil-bug-monster.dae */,
+				51079C181C3E17CC0084D014 /* fire-171229-640.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -206,18 +209,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				518C74141C3AEF6100354987 /* bambo.jpg in Resources */,
+				51079C1A1C3E17CC0084D014 /* fire-171229-640.jpg in Resources */,
 				51CBF9B91C3BA9C700E70B32 /* coin.wav in Resources */,
 				518C73FE1C3A928C00354987 /* grass.png in Resources */,
-				01D1D1A31A29EDD10067D6D3 /* Map.png in Resources */,
 				01558A3B1A0291A700083EB1 /* Main.storyboard in Resources */,
 				511B4CAD1C3BB09D00695086 /* Coin 2 in Resources */,
 				518C73F21C3A7B5700354987 /* brick.png in Resources */,
 				01558A401A0291A700083EB1 /* LaunchScreen.xib in Resources */,
 				518C74091C3ADE9500354987 /* night.png in Resources */,
+				51079C161C3E17440084D014 /* map.png in Resources */,
 				01558A3D1A0291A700083EB1 /* Images.xcassets in Resources */,
+				51079C191C3E17CC0084D014 /* evil-bug-monster.dae in Resources */,
 				518C74151C3AEF6100354987 /* crystal.dae in Resources */,
 				511B4CAE1C3BB09D00695086 /* Coin 2.dae in Resources */,
-				511B4CB01C3BB0C500695086 /* map1.png in Resources */,
 				511B4CB21C3BB89F00695086 /* bgm.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

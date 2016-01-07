@@ -6,7 +6,10 @@
          contextName = "ViewController.viewDidLoad() -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "monsterNode!.geometry">
+               value = "SCNScene(named: &quot;evil-bug-monster.dae&quot;)!.rootNode.childNodes">
+            </PersistentString>
+            <PersistentString
+               value = "monsterScene!.rootNode.childNodeWithName(&quot;bug_obj_1&quot;, recursively: true)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

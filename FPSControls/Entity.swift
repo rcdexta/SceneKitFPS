@@ -1,9 +1,9 @@
 import Foundation
 
 enum EntityType {
-    
     case Hero
     case Monster
+    case Gem
 }
 
 class Entity {

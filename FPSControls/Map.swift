@@ -54,8 +54,11 @@ class Map {
             } else if red == 0 && green == 255 && blue == 0 {
                 entities.append(Entity(type: .Hero, x: Float(tile.x) + 0.5, y: Float(tile.y) + 0.5))
                 tile.type = .Floor
-            } else if red == 0 && green == 0 && blue == 255 {
+            } else if red == 255 && green == 0 && blue == 0 {
                 entities.append(Entity(type: .Monster, x: Float(tile.x) + 0.5, y: Float(tile.y) + 0.5))
+                tile.type = .Floor
+            } else if red == 0 && green == 0 && blue == 255 {
+                entities.append(Entity(type: .Gem, x: Float(tile.x) + 0.5, y: Float(tile.y) + 0.5))
                 tile.type = .Floor
             } else if red == 128 && green == 128 && blue == 128 {
                 tile.type = .Wall
