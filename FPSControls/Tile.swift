@@ -6,6 +6,7 @@ enum TileType {
     case Rock
     case Wall
     case Floor
+    case Door
 }
 
 struct FaceVisibility : OptionSetType {

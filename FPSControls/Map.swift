@@ -62,6 +62,8 @@ class Map {
                 tile.type = .Floor
             } else if red == 128 && green == 128 && blue == 128 {
                 tile.type = .Wall
+            } else if red == 255 && green == 255 && blue == 255 {
+                tile.type = .Door
             } else {
                 tile.type = .Rock
             }

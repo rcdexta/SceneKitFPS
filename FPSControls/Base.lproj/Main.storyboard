@@ -22,31 +22,31 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </sceneKitView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zGS-Jm-VnD">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zGS-Jm-VnD">
                                 <rect key="frame" x="20" y="36" width="560" height="528"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap anywhere to move forward. Double tap to fire." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoX-sa-680">
-                                        <rect key="frame" x="80" y="458" width="400" height="46"/>
+                                        <rect key="frame" x="80" y="438" width="400" height="46"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="46" id="HFH-Bm-IVR"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="20"/>
+                                        <color key="textColor" red="0.66274509800000003" green="0.90588235289999997" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe left or right to change direction" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ON-dG-vVL">
-                                        <rect key="frame" x="27" y="243" width="200" height="41"/>
+                                        <rect key="frame" x="100" y="226" width="250" height="76"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="200" id="lDD-t3-Upj"/>
+                                            <constraint firstAttribute="width" constant="250" id="lDD-t3-Upj"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="19"/>
+                                        <color key="textColor" red="0.66274509800000003" green="0.90588235289999997" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reach the target point as early as you can! " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQo-Qv-I8v">
-                                        <rect key="frame" x="333" y="247" width="200" height="41"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follow the gems to reach the door to exit the maze" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQo-Qv-I8v">
+                                        <rect key="frame" x="210" y="230" width="250" height="76"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="20"/>
+                                        <color key="textColor" red="0.66274509800000003" green="0.90588235289999997" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -57,14 +57,14 @@
                                     <constraint firstItem="1ON-dG-vVL" firstAttribute="centerY" secondItem="zGS-Jm-VnD" secondAttribute="centerY" id="1II-lJ-58M"/>
                                     <constraint firstItem="xoX-sa-680" firstAttribute="centerX" secondItem="zGS-Jm-VnD" secondAttribute="centerX" id="Bc9-Ob-cfT"/>
                                     <constraint firstItem="JQo-Qv-I8v" firstAttribute="height" secondItem="1ON-dG-vVL" secondAttribute="height" id="Nbo-bt-Goq"/>
-                                    <constraint firstAttribute="bottom" secondItem="xoX-sa-680" secondAttribute="bottomMargin" constant="32" id="Qox-UH-kWL"/>
+                                    <constraint firstAttribute="bottom" secondItem="xoX-sa-680" secondAttribute="bottomMargin" constant="52" id="Qox-UH-kWL"/>
                                     <constraint firstItem="JQo-Qv-I8v" firstAttribute="firstBaseline" secondItem="1ON-dG-vVL" secondAttribute="firstBaseline" id="b81-05-daY"/>
                                     <constraint firstItem="xoX-sa-680" firstAttribute="top" secondItem="1ON-dG-vVL" secondAttribute="bottom" constant="74" id="gub-5Y-Rm9"/>
-                                    <constraint firstAttribute="trailing" secondItem="JQo-Qv-I8v" secondAttribute="trailing" constant="27" id="iEh-4G-298"/>
+                                    <constraint firstAttribute="trailing" secondItem="JQo-Qv-I8v" secondAttribute="trailing" constant="100" id="iEh-4G-298"/>
                                     <constraint firstItem="JQo-Qv-I8v" firstAttribute="width" secondItem="1ON-dG-vVL" secondAttribute="width" id="lAK-eI-VPd"/>
                                     <constraint firstItem="JQo-Qv-I8v" firstAttribute="centerY" secondItem="1ON-dG-vVL" secondAttribute="centerY" constant="4" id="nE7-w4-mW6"/>
                                     <constraint firstItem="1ON-dG-vVL" firstAttribute="baseline" secondItem="JQo-Qv-I8v" secondAttribute="baseline" id="nde-nL-UK5"/>
-                                    <constraint firstItem="1ON-dG-vVL" firstAttribute="leading" secondItem="zGS-Jm-VnD" secondAttribute="leading" constant="27" id="vlB-ut-HOv"/>
+                                    <constraint firstItem="1ON-dG-vVL" firstAttribute="leading" secondItem="zGS-Jm-VnD" secondAttribute="leading" constant="100" id="vlB-ut-HOv"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">

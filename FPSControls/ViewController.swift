@@ -1,4 +1,5 @@
 import UIKit
+import AVKit
 import AVFoundation
 import SceneKit
 
@@ -53,10 +54,16 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         return node
     }
     
+    func applyDoorTexture(plane:SCNGeometry){
+        plane.firstMaterial?.diffuse.contents = UIImage(named: "exit")
+    }
+
+    
     func applyWallTexture(plane:SCNGeometry){
         plane.firstMaterial?.diffuse.contents = UIImage(named: "brick")
         plane.firstMaterial?.diffuse.wrapS = SCNWrapMode.Repeat
         plane.firstMaterial?.diffuse.wrapT = SCNWrapMode.Repeat
+        plane.firstMaterial?.doubleSided = true
         plane.firstMaterial?.diffuse.mipFilter = SCNFilterMode.Linear
     }
     
@@ -88,6 +95,43 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         bgmPlayer.prepareToPlay()
         bgmPlayer.delegate = self
         bgmPlayer.play()
+    }
+    
+    func doIntroMovie(){
+        let panAction1 = SCNAction.moveTo(SCNVector3(x: 10, y: 7 , z: -1), duration: 5.0)
+        let axis = SCNVector3(x: -1,y: 0,z: 0)
+        let rotateAction1 = SCNAction.rotateByAngle(CGFloat(M_PI/6), aroundAxis: axis, duration: 3.0)
+        
+        let sequence1 = SCNAction.group([panAction1, rotateAction1])
+        
+        camNode.runAction(sequence1) { () -> Void in
+            let panAction2 = SCNAction.moveTo(SCNVector3(x:0, y: 0, z: 0), duration: 5.0)
+            let axis = SCNVector3(x: 1,y: 0,z: 0)
+            let rotateAction2 = SCNAction.rotateByAngle(CGFloat(M_PI/6), aroundAxis: axis, duration: 3.0)
+            
+            let sequence2 = SCNAction.group([panAction2, rotateAction2])
+            
+            self.camNode.runAction(sequence2) { () -> Void in
+                print("show overlay")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.overlayView.hidden = false
+                }
+            }
+        }
+    }
+    
+    func playRun1Video(){
+        let path = NSBundle.mainBundle().pathForResource("Run1", ofType:"mp4")!
+        let player = AVPlayer(URL: NSURL(fileURLWithPath: path))
+        
+        let playerController = AVPlayerViewController()
+        playerController.showsPlaybackControls = false
+        playerController.player = player
+        self.addChildViewController(playerController)
+        self.view.addSubview(playerController.view)
+        playerController.view.frame = self.view.frame
+        
+        player.play()
     }
     
     override func viewDidLoad() {
@@ -122,22 +166,21 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
             
             case .Gem:
                 let gemScene = SCNScene(named: "crystal.dae")
-                let gemNode = gemScene!.rootNode.childNodeWithName("crystal", recursively: true)
-                gemNode!.position = SCNVector3(x: entity.x, y: 0.1, z: entity.y)
-                gemNode!.scale = SCNVector3(x: 0.2, y: 0.2, z: 0.2)
-                gemNode!.physicsBody = SCNPhysicsBody(type: .Static, shape: SCNPhysicsShape(geometry: gemNode!.geometry!, options: nil))
-                gemNode!.physicsBody?.categoryBitMask = CollisionCategory.Monster
-                gemNode!.physicsBody?.collisionBitMask = CollisionCategory.All
-                gemNode!.physicsBody?.contactTestBitMask = ~0
+                let gemNode = gemScene!.rootNode.childNodeWithName("crystal", recursively: true)!
+                gemNode.position = SCNVector3(x: entity.x, y: 0.1, z: entity.y)
+                gemNode.scale = SCNVector3(x: 0.2, y: 0.2, z: 0.2)
+                gemNode.physicsBody = SCNPhysicsBody(type: .Static, shape: SCNPhysicsShape(geometry: gemNode.geometry!, options: nil))
+                gemNode.physicsBody?.categoryBitMask = CollisionCategory.Monster
+                gemNode.physicsBody?.collisionBitMask = CollisionCategory.All
+                gemNode.physicsBody?.contactTestBitMask = ~0
                 
                 let action = SCNAction.rotateByAngle(CGFloat(5), aroundAxis: SCNVector3Make(0,-1,0), duration:10.0)
                 let sequence = SCNAction.sequence([action])
                 
                 let repeatedSequence = SCNAction.repeatActionForever(sequence)
-                gemNode!.runAction(repeatedSequence)
+                gemNode.runAction(repeatedSequence)
                 
-                
-                scene.rootNode.addChildNode(gemNode!)
+                scene.rootNode.addChildNode(gemNode)
                 
             case .Monster:
                 let monsterScene = SCNScene(named: "evil-bug-monster.dae")
@@ -161,7 +204,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         
         //add a camera node
         camNode = SCNNode()
-        camNode.position = SCNVector3(x: 0, y: 0, z: 0)
+//        camNode.position = SCNVector3(x: 0, y: 0 , z: 0)
+        camNode.position = SCNVector3(x: Float(map.width)/4+3, y: 0 , z: -Float(map.height)/2-3)
         heroNode.addChildNode(camNode)
         
         //add camera
@@ -176,36 +220,37 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         //add walls
         for tile in map.tiles {
             
-            if tile.type == .Wall {
+            if tile.type == .Wall || tile.type == .Door {
                 
                 //create walls
                 if tile.visibility.contains(.Top) {
                     let wallNode = SCNNode()
-                    wallNode.geometry = SCNPlane(width: 1, height: 1)
-                    applyWallTexture(wallNode.geometry!)
+                    wallNode.geometry = SCNBox(width: 1, height: 1, length: 0.1, chamferRadius: 0)
+                    tile.type == .Wall ? applyWallTexture(wallNode.geometry!) : applyDoorTexture(wallNode.geometry!)
                     wallNode.rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(M_PI))
                     wallNode.position = SCNVector3(x: Float(tile.x) + 0.5, y: 0.5, z: Float(tile.y))
                     mapNode.addChildNode(wallNode)
                 }
                 if tile.visibility.contains(.Right) {
                     let wallNode = SCNNode()
-                    wallNode.geometry = SCNPlane(width: 1, height: 1)
-                    applyWallTexture(wallNode.geometry!)
+                    wallNode.geometry = SCNBox(width: 1.1, height: 1, length: 0.1, chamferRadius: 0)
+                    tile.type == .Wall ? applyWallTexture(wallNode.geometry!) : applyDoorTexture(wallNode.geometry!)
                     wallNode.rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(M_PI_2))
                     wallNode.position = SCNVector3(x: Float(tile.x) + 1, y: 0.5, z: Float(tile.y) + 0.5)
                     mapNode.addChildNode(wallNode)
                 }
                 if tile.visibility.contains(.Bottom) {
                     let wallNode = SCNNode()
-                    wallNode.geometry = SCNPlane(width: 1, height: 1)
-                    applyWallTexture(wallNode.geometry!)
+                    wallNode.geometry = SCNBox(width: 1, height: 1, length: 0.1, chamferRadius: 0)
+                    tile.type == .Wall ? applyWallTexture(wallNode.geometry!) : applyDoorTexture(wallNode.geometry!)
                     wallNode.rotation = SCNVector4(x: 0, y: 1, z: 0, w: 0)
                     wallNode.position = SCNVector3(x: Float(tile.x) + 0.5, y: 0.5, z: Float(tile.y) + 1)
                     mapNode.addChildNode(wallNode)
                 }
                 if tile.visibility.contains(.Left) {
                     let wallNode = SCNNode()
-                    wallNode.geometry = SCNPlane(width: 1, height: 1)
+                    wallNode.geometry = SCNBox(width: 1.1, height: 1, length: 0.1, chamferRadius: 0)
+                    tile.type == .Wall ? applyWallTexture(wallNode.geometry!) : applyDoorTexture(wallNode.geometry!)
                     applyWallTexture(wallNode.geometry!)
                     wallNode.rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(-M_PI_2))
                     wallNode.position = SCNVector3(x: Float(tile.x), y: 0.5, z: Float(tile.y) + 0.5)
@@ -238,6 +283,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         
         //set the scene to the view
         sceneView.scene = scene
+        sceneView.jitteringEnabled = true
         sceneView.delegate = self
         
         //show statistics such as fps and timing information
@@ -251,7 +297,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
         lookGesture.delegate = self
         view.addGestureRecognizer(lookGesture)
         
-        playBGM()
+        doIntroMovie()
+//        playBGM()
+        
+//        playRun1Video()
         
 //        walk gesture
 //        walkGesture = UIPanGestureRecognizer(target: self, action: "walkGestureRecognized:")
@@ -283,9 +332,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, SCNSceneRen
     
     @IBAction func hideOverlay() {
         
-        UIView.animateWithDuration(0.5) {
-            self.overlayView.alpha = 0
-        }
+            UIView.animateWithDuration(0.5) {
+                self.overlayView.alpha = 0
+            }
+        
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
